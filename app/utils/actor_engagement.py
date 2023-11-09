@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
-from matplotlib import pyplot as plt
 import plotly.express as px
+from matplotlib import pyplot as plt
 
 
 def change_assessment(verb, object_def_type):
@@ -209,9 +209,11 @@ def display(df, id_or_name):  # Тук подаваш оригиналната d
     bar_width = 0.2
     bar_positions = range(len(scores_df))
 
-    plt.bar([pos - bar_width for pos in bar_positions], scores_df['Min_Score'], width=bar_width, label='Min Score')
-    plt.bar(bar_positions, scores_df['Avg_Score'], width=bar_width, label='Avg Score')
-    plt.bar([pos + bar_width for pos in bar_positions], scores_df['Max_Score'], width=bar_width, label='Max Score')
+    fig2, ax = plt.subplots()
+
+    ax.bar([pos - bar_width for pos in bar_positions], scores_df['Min_Score'], width=bar_width, label='Min Score')
+    ax.bar(bar_positions, scores_df['Avg_Score'], width=bar_width, label='Avg Score')
+    ax.bar([pos + bar_width for pos in bar_positions], scores_df['Max_Score'], width=bar_width, label='Max Score')
 
     for pos, min_score, avg_score, max_score in zip(bar_positions, scores_df['Min_Score'], scores_df['Avg_Score'],
                                                     scores_df['Max_Score']):
@@ -225,12 +227,12 @@ def display(df, id_or_name):  # Тук подаваш оригиналната d
 
     plt.yticks([])
     plt.xticks(bar_positions, scores_df['Type'])
-    plt.legend()
+    plt.legend(loc=8)
 
-    fig2 = None
+    fig3 = None
 
     if place is not None:
-        fig2, ax = plt.subplots(nrows=2, ncols=1)
+        fig3, ax = plt.subplots(nrows=2, ncols=1)
 
         x = [1, place[0][0], place[0][1]]
         y = [1, place[1][0], place[1][1]]
@@ -249,5 +251,6 @@ def display(df, id_or_name):  # Тук подаваш оригиналната d
         ax[1].scatter(y, np.zeros(len(x)), c='white')
         ax[1].scatter(y[1], 0, s=300, c='lightsteelblue')
         ax[1].set_title('Place in Institution')
+        plt.subplots_adjust(top=0.99, bottom=0.01, hspace=1.5, wspace=0.4)
 
-    return fig1, fig2
+    return fig1, fig2, fig3
