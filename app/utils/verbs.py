@@ -3,6 +3,15 @@ import plotly.graph_objects as go
 
 
 def get_verb_lollipop(df):
+    """
+    Generate a lollipop plot to visualize interaction counts for each verb.
+
+    Parameters:
+    - df (pd.DataFrame): The DataFrame containing interaction data.
+
+    Returns:
+    - plt.Figure: The generated lollipop plot.
+    """
     fig, ax = plt.subplots(figsize=(16, 10), dpi=80)
     ax.set_title(
         'Interactions',
@@ -72,6 +81,15 @@ def get_verb_radar_verb(df):
 
 
 def get_verb_radar_course(df):
+    """
+    Generate a radar plot to visualize the distribution of verb interactions across different courses.
+
+    Parameters:
+    - df (pd.DataFrame): The DataFrame containing interaction data.
+
+    Returns:
+    - go.Figure: The generated radar plot.
+    """
     df_radar = (df
                 .groupby(['verb.id', 'Course'])['Course']
                 .count()
