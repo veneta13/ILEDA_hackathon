@@ -9,6 +9,15 @@ from sklearn.decomposition import PCA
 
 
 def load_courses(directory):
+    """
+    Load course data from CSV files in a specified directory.
+
+    Parameters:
+    - directory (str): The directory containing CSV files.
+
+    Returns:
+    - dict: A dictionary where keys are course names and values are corresponding DataFrames.
+    """
     files = [os.path.join(directory, file_name) for file_name in os.listdir(directory)]
     courses = {}
 
@@ -31,6 +40,16 @@ def load_courses(directory):
 
 
 def cluster(course_name, number_of_clusters=3):
+    """
+    Perform K-means clustering on course data and generate 3D visualization with PCA.
+
+    Parameters:
+    - course_name (str): Name of the course to be clustered.
+    - number_of_clusters (int): Number of clusters for K-means. Default is 3.
+
+    Returns:
+    - tuple: Two figures - 3D scatter plot and bar plot of the most important features.
+    """
     courses = load_courses('data/clustering_data')  # Tук пътя трябва да оправим
     course_name = course_name.replace(' ', '_')
     df = courses[course_name]
