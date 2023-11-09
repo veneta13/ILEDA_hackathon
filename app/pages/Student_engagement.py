@@ -7,7 +7,7 @@ if 'viz_type' not in st.session_state:
 
 df = util_funcs.load_data()
 
-st.markdown('# Student engagement')
+st.markdown('# Student Engagement')
 
 st.radio(
     'Select the category you want to visualize',
