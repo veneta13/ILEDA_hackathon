@@ -9,6 +9,16 @@ from sklearn.linear_model import LinearRegression
 
 
 def regression_results(y_true, y_pred):
+    """
+    Calculate regression evaluation metrics and return a formatted string.
+
+    Parameters:
+    - y_true (array-like): True values of the target variable.
+    - y_pred (array-like): Predicted values of the target variable.
+
+    Returns:
+    - str: Formatted string containing regression evaluation metrics.
+    """
     explained_variance = metrics.explained_variance_score(y_true, y_pred)
     mean_absolute_error = metrics.mean_absolute_error(y_true, y_pred)
     mse = metrics.mean_squared_error(y_true, y_pred)
@@ -22,6 +32,15 @@ def regression_results(y_true, y_pred):
 
 
 def regression(df):
+    """
+    Perform linear regression analysis on the given DataFrame and visualize the results.
+
+    Parameters:
+    - df (pd.DataFrame): Input DataFrame containing regression data.
+
+    Returns:
+    - tuple: Two matplotlib figures (heatmap and barplot) and a string of regression evaluation metrics.
+    """
     df_reg = pd.get_dummies(df['Course']).astype(int)
     df_reg = pd.concat([df_reg, pd.get_dummies(df['Teaching']).astype(int)], axis=1)
     df_reg['actor.id'] = df['actor.id']
