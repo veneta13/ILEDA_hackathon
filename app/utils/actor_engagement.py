@@ -137,24 +137,6 @@ def resume_actor(df, actor_id):
 
     return actions_df, scores_df, successful_assessments, place
 
-
-#def display_actor(df, actor_id):
-#    actions_df, scores_df, successful_assessments, place = resume_actor(df, actor_id)
-#
-#    # display(actions_df) -> Тук трябва да го измислим как точно и кое
-#    # display(scores_df) -> как точно да го представим
-#    print(actions_df)
-#    print('*'*50)
-#    print(scores_df)
-#    print('*'*50)
-#    print(f'Number of successful quizzes: {successful_assessments[0]}')
-#    print(f'Number of successful homeworks: {successful_assessments[1]}')
-#    print(f'Number of successful tests: {successful_assessments[2]}')
-#    print('*'*50)
-#    print(place)
-#    #display(place) -> Пак трябва да измислим как да го направим.
-
-
 def resume_course_or_institution(df, id):
     institutions = set(df['Institution'])
 
@@ -200,26 +182,65 @@ def resume_course_or_institution(df, id):
 
     return actions_df, scores_df, successful_assessments, total_students, total_students_in_courses
 
+def display(df, id_or_name): # Тук подаваш оригиналната df и после е все тая дали ще е актьор или курс или институция
+  actions_df = None
+  scores_df = None
+  successful_assessments = None
+  total_students = None
+  total_students_in_courses = None
+  place = None
 
-#def display_course_or_institution(df, name):
-#    actions_df, scores_df, successful_assessments, total_students, total_students_in_courses = resume_course_or_institution(
-#        df, name)
-#    # display(actions_df) -> Тук трябва да го измислим как точно и кое
-#    # display(scores_df) -> как точно да го представим
-#    print(f'Number of students in {name}: {total_students}')
-#    print('*' * 50)
-#
-#    if total_students_in_courses is not None:
-#        print(f"Number of students in {name}'s courses:\n{total_students_in_courses}")
-#        print('*' * 50)
-#
-#    print(actions_df)
-#    print('*' * 50)
-#
-#    print(f'Number of successful quizzes: {successful_assessments[0]}')
-#    print(f'Number of successful homeworks: {successful_assessments[1]}')
-#    print(f'Number of successful tests: {successful_assessments[2]}')
-#    print('*' * 50)
-#
-#    print(scores_df)
-#    print('*' * 50)
+  if type(id_or_name) is int:
+    actions_df, scores_df, successful_assessments, place = resume_actor(df, id_or_name)
+  else:
+    actions_df, scores_df, successful_assessments, total_students, total_students_in_courses = resume_course_or_institution(df, id_or_name)
+
+  fig = px.treemap(data_frame=actions_df, path=['Verb', 'Type'], values='Count', title='Actions')
+  fig.show()
+
+  scores_df = scores_df.fillna(0)
+  scores_df = scores_df[(scores_df['Min_Score'] != 0) | (scores_df['Avg_Score'] != 0) | (scores_df['Max_Score'] != 0)]
+
+  bar_width = 0.2
+  bar_positions = range(len(scores_df))
+
+  plt.bar([pos - bar_width for pos in bar_positions], scores_df['Min_Score'], width=bar_width, label='Min Score')
+  plt.bar(bar_positions, scores_df['Avg_Score'], width=bar_width, label='Avg Score')
+  plt.bar([pos + bar_width for pos in bar_positions], scores_df['Max_Score'], width=bar_width, label='Max Score')
+
+  for pos, min_score, avg_score, max_score in zip(bar_positions, scores_df['Min_Score'], scores_df['Avg_Score'], scores_df['Max_Score']):
+    plt.text(pos - bar_width, min_score, str(min_score)[:5], ha='center', va='bottom')
+    plt.text(pos, avg_score, str(avg_score)[:5], ha='center', va='bottom')
+    plt.text(pos + bar_width, max_score, str(max_score)[:5], ha='center', va='bottom')
+
+  plt.xlabel('Type')
+  plt.ylabel('Score')
+  plt.title('Scores')
+
+  plt.yticks([])
+  plt.xticks(bar_positions, scores_df['Type'])
+  plt.legend()
+
+  if place is not None:
+    fig, ax = plt.subplots(nrows = 2, ncols = 1)
+
+    x = [1, place[0][0], place[0][1]]
+    y = [1, place[1][0], place[1][1]]
+    idx = np.arange(1,len(x)+1)
+    for i in range(2):
+      ax[i].spines['top'].set_visible(False)
+      ax[i].spines['right'].set_visible(False)
+      ax[i].spines['left'].set_visible(False)
+      ax[i].spines['bottom'].set_position('zero')
+      ax[i].spines['bottom'].set_alpha(0.2)
+      ax[i].get_yaxis().set_visible(False)
+    ax[0].scatter(x, np.zeros(len(x)), c = 'white')
+    ax[0].scatter(x[1], 0, s=300, c='lightgreen')
+    ax[0].set_title('Place in Course')
+
+    ax[1].scatter(y, np.zeros(len(x)), c = 'white')
+    ax[1].scatter(y[1], 0, s=300, c='lightsteelblue')
+    ax[1].set_title('Place in Institution')
+
+  plt.show()
+
