@@ -5,6 +5,17 @@ from statsmodels.graphics.tsaplots import plot_acf
 
 
 def get_actions(df, min_time=None, max_time=None):
+    """
+    Calculate daily activity counts including assessments and non-assessments.
+
+    Parameters:
+    - df (pd.DataFrame): The DataFrame containing interaction data.
+    - min_time (pd.Timestamp, optional): Minimum timestamp for filtering. Default is the first timestamp in the DataFrame.
+    - max_time (pd.Timestamp, optional): Maximum timestamp for filtering. Default is the last timestamp in the DataFrame.
+
+    Returns:
+    - pd.DataFrame: Daily activity counts including assessments, non-assessments, and total activities.
+    """
     if min_time is None and max_time is None:
         min_time = df.index[0]
         max_time = df.index[-1]
@@ -37,6 +48,16 @@ def get_actions(df, min_time=None, max_time=None):
 
 
 def actor_timeline(df, actor_id):
+    """
+    Generate a timeline of daily activity counts for a specific actor.
+
+    Parameters:
+    - df (pd.DataFrame): The DataFrame containing interaction data.
+    - actor_id (int): The ID of the actor for whom the timeline is generated.
+
+    Returns:
+    - Tuple[pd.DataFrame, str]: Daily activity counts DataFrame and the color associated with the actor's institution.
+    """
     actor_df = df[df['actor.id'] == actor_id]
     actor_df = actor_df.set_index('timestamp').sort_index()
 
@@ -50,6 +71,17 @@ def actor_timeline(df, actor_id):
 
 
 def display_actions(df, actor_id, metric):
+    """
+    Display a plot of daily activity counts for a specific actor.
+
+    Parameters:
+    - df (pd.DataFrame): The DataFrame containing interaction data.
+    - actor_id (int): The ID of the actor for whom the plot is generated.
+    - metric (str): The type of activity count to display ('assessments', 'non_assessments', 'total').
+
+    Returns:
+    - plt.Figure: The generated plot.
+    """
     actor_actions, institution_colour = actor_timeline(df, actor_id)
     fig, ax = plt.subplots()
 
@@ -66,6 +98,16 @@ def display_actions(df, actor_id, metric):
 
 
 def course_or_institution_timeline(df, name):
+    """
+    Generate a timeline of daily activity counts for a specific course or institution.
+
+    Parameters:
+    - df (pd.DataFrame): The DataFrame containing interaction data.
+    - name (str): The name of the course or institution for which the timeline is generated.
+
+    Returns:
+    - Tuple[pd.DataFrame, str]: Daily activity counts DataFrame and the color associated with the institution.
+    """
     object_type = 'Course'
     if name in set(df['Institution']):
         object_type = 'Institution'
@@ -83,6 +125,17 @@ def course_or_institution_timeline(df, name):
 
 
 def display_course_or_institution_actions(df, name, metric):
+    """
+    Display a plot of daily activity counts for a specific course or institution.
+
+    Parameters:
+    - df (pd.DataFrame): The DataFrame containing interaction data.
+    - name (str): The name of the course or institution for which the plot is generated.
+    - metric (str): The type of activity count to display ('assessments', 'non_assessments', 'total', 'both').
+
+    Returns:
+    - plt.Figure: The generated plot.
+    """
     object_actions, institution_colour = course_or_institution_timeline(df, name)
 
     fig, ax = plt.subplots()
@@ -102,6 +155,17 @@ def display_course_or_institution_actions(df, name, metric):
 
 
 def analyze_time_series(df, name, metric):
+    """
+    Analyze time series data for a specific course or institution.
+
+    Parameters:
+    - df (pd.DataFrame): The DataFrame containing interaction data.
+    - name (str): The name of the course or institution for which the analysis is performed.
+    - metric (str): The type of activity count to analyze.
+
+    Returns:
+    - plt.Figure: The generated autocorrelation and partial autocorrelation plots.
+    """
     object_actions, institution_colour = course_or_institution_timeline(df, name)
 
     lag_acf = 30
