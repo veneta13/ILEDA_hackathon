@@ -1,11 +1,10 @@
 import matplotlib.pyplot as plt
-import pandas as pd
 import numpy as np
+import pandas as pd
 import seaborn as sns
-
 import sklearn.metrics as metrics
-from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import train_test_split
 
 
 def regression_results(y_true, y_pred):

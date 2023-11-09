@@ -19,4 +19,3 @@ if fig1 is not None:
 
 if fig2 is not None:
     st.pyplot(fig2)
-

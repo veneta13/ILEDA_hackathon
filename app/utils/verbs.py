@@ -117,4 +117,3 @@ def get_verb_radar_course(df):
     )
 
     return fig
-

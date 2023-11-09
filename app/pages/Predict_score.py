@@ -13,7 +13,6 @@ st.markdown('### Correlation matrix')
 if fig1 is not None:
     st.pyplot(fig1)
 
-
 st.markdown(results)
 
 if fig2 is not None:

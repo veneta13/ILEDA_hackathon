@@ -1,4 +1,3 @@
-import pandas as pd
 import streamlit as st
 import util_funcs
 from utils import time_series
@@ -30,4 +29,3 @@ st.pyplot(time_series.display_course_or_institution_actions(
     course,
     util_funcs.text_to_display(display_type)
 ))
-
