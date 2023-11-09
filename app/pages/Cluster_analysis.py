@@ -4,7 +4,7 @@ from utils import clustering
 
 df = util_funcs.load_data()
 
-st.markdown('# Student Engagement')
+st.markdown('# Cluster Analysis ')
 
 course = st.selectbox(
     "Select a course",
