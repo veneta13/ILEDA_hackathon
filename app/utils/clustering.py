@@ -47,5 +47,5 @@ def cluster(df, number_of_clusters=3):
     plt.xticks(bar_positions, ['X', 'Y', 'Z'])
     plt.xlabel('Axis')
     plt.ylabel('Value')
-    plt.title('Most Importnat Features')
+    plt.title('Most Important Features')
     plt.legend()
