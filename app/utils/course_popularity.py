@@ -2,6 +2,18 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 def course_popularity(df):
+    """
+    Analyzes course popularity based on user interactions and visualizes the results through three plots.
+
+    Parameters:
+    - df (pd.DataFrame): Input DataFrame containing the dataset.
+
+    Returns:
+    - fig1 (plt.Figure): Pie chart depicting the distribution of user interactions across courses.
+    - fig2 (plt.Figure): Boxplot illustrating the variation in user interactions by course.
+    - fig3 (plt.Figure): Scatter plot showing the relationship between the median interaction count per person
+                        and the number of students enrolled in each course.
+    """
     color_df = pd.DataFrame({
         'Institution': df['Institution'].unique(),
         'color': ['red', 'blue', 'green', 'yellow']
