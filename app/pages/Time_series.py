@@ -14,7 +14,7 @@ course = st.selectbox(
 
 display_type = st.selectbox(
     "Select an assignment type",
-    ['Graded assignments', 'Non-graded assignments', 'Both types (single plot)', 'Both types (separate plots)'],
+    ['Graded assignments', 'Non-graded activities', 'Both types (single plot)', 'Both types (separate plots)'],
     placeholder="Enter assignment type here...",
 )
 
