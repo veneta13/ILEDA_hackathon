@@ -2,7 +2,6 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from statsmodels.graphics.tsaplots import plot_acf
-from statsmodels.graphics.tsaplots import plot_pacf
 
 
 def get_actions(df, min_time=None, max_time=None):
@@ -106,9 +105,7 @@ def analyze_time_series(df, name, metric):
     object_actions, institution_colour = course_or_institution_timeline(df, name)
 
     lag_acf = 30
-    lag_pacf = 30
-    f, ax = plt.subplots(nrows=2, ncols=1)
-    plot_acf(object_actions[metric], lags=lag_acf, ax=ax[0])
-    plot_pacf(object_actions[metric], lags=lag_pacf, ax=ax[1], method='ols')
+    f, ax = plt.subplots()
+    plot_acf(object_actions[metric], lags=lag_acf, ax=ax)
     plt.tight_layout()
     return f
