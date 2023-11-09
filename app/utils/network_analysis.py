@@ -4,6 +4,15 @@ import plotly.graph_objects as go
 
 
 def get_network(df):
+    """
+    Generate a Sankey diagram visualizing the number of interactions per course.
+
+    Parameters:
+    - df (pd.DataFrame): The DataFrame containing interaction data.
+
+    Returns:
+    - Tuple[go.Figure, pd.DataFrame]: A Plotly figure representing the Sankey diagram and a DataFrame summarizing interactions.
+    """
     color_df = pd.DataFrame({
         'Institution': df['Institution'].unique(),
         'color': ['yellow', 'blue', 'red', 'green']
