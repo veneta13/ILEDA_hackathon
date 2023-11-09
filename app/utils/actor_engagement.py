@@ -138,21 +138,21 @@ def resume_actor(df, actor_id):
     return actions_df, scores_df, successful_assessments, place
 
 
-def display_actor(df, actor_id):
-    actions_df, scores_df, successful_assessments, place = resume_actor(df, actor_id)
-
-    # display(actions_df) -> Тук трябва да го измислим как точно и кое
-    # display(scores_df) -> как точно да го представим
-    print(actions_df)
-    print('*'*50)
-    print(scores_df)
-    print('*'*50)
-    print(f'Number of successful quizzes: {successful_assessments[0]}')
-    print(f'Number of successful homeworks: {successful_assessments[1]}')
-    print(f'Number of successful tests: {successful_assessments[2]}')
-    print('*'*50)
-    print(place)
-    #display(place) -> Пак трябва да измислим как да го направим.
+#def display_actor(df, actor_id):
+#    actions_df, scores_df, successful_assessments, place = resume_actor(df, actor_id)
+#
+#    # display(actions_df) -> Тук трябва да го измислим как точно и кое
+#    # display(scores_df) -> как точно да го представим
+#    print(actions_df)
+#    print('*'*50)
+#    print(scores_df)
+#    print('*'*50)
+#    print(f'Number of successful quizzes: {successful_assessments[0]}')
+#    print(f'Number of successful homeworks: {successful_assessments[1]}')
+#    print(f'Number of successful tests: {successful_assessments[2]}')
+#    print('*'*50)
+#    print(place)
+#    #display(place) -> Пак трябва да измислим как да го направим.
 
 
 def resume_course_or_institution(df, id):
@@ -201,25 +201,25 @@ def resume_course_or_institution(df, id):
     return actions_df, scores_df, successful_assessments, total_students, total_students_in_courses
 
 
-def display_course_or_institution(df, name):
-    actions_df, scores_df, successful_assessments, total_students, total_students_in_courses = resume_course_or_institution(
-        df, name)
-    # display(actions_df) -> Тук трябва да го измислим как точно и кое
-    # display(scores_df) -> как точно да го представим
-    print(f'Number of students in {name}: {total_students}')
-    print('*' * 50)
-
-    if total_students_in_courses is not None:
-        print(f"Number of students in {name}'s courses:\n{total_students_in_courses}")
-        print('*' * 50)
-
-    print(actions_df)
-    print('*' * 50)
-
-    print(f'Number of successful quizzes: {successful_assessments[0]}')
-    print(f'Number of successful homeworks: {successful_assessments[1]}')
-    print(f'Number of successful tests: {successful_assessments[2]}')
-    print('*' * 50)
-
-    print(scores_df)
-    print('*' * 50)
+#def display_course_or_institution(df, name):
+#    actions_df, scores_df, successful_assessments, total_students, total_students_in_courses = resume_course_or_institution(
+#        df, name)
+#    # display(actions_df) -> Тук трябва да го измислим как точно и кое
+#    # display(scores_df) -> как точно да го представим
+#    print(f'Number of students in {name}: {total_students}')
+#    print('*' * 50)
+#
+#    if total_students_in_courses is not None:
+#        print(f"Number of students in {name}'s courses:\n{total_students_in_courses}")
+#        print('*' * 50)
+#
+#    print(actions_df)
+#    print('*' * 50)
+#
+#    print(f'Number of successful quizzes: {successful_assessments[0]}')
+#    print(f'Number of successful homeworks: {successful_assessments[1]}')
+#    print(f'Number of successful tests: {successful_assessments[2]}')
+#    print('*' * 50)
+#
+#    print(scores_df)
+#    print('*' * 50)
