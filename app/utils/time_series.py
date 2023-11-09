@@ -167,9 +167,18 @@ def analyze_time_series(df, name, metric):
     - plt.Figure: The generated autocorrelation and partial autocorrelation plots.
     """
     object_actions, institution_colour = course_or_institution_timeline(df, name)
-
+    
     lag_acf = 30
-    f, ax = plt.subplots()
-    plot_acf(object_actions[metric], lags=lag_acf, ax=ax)
+      if metric == 'both':
+        f, ax = plt.subplots(nrows=2, ncols=1)
+        plot_acf(object_actions['assessments'], lags=lag_acf, ax=ax[0])
+        ax[0].set_title('Graded Assingments Autocorrelation')
+          
+        plot_acf(object_actions['non_assessments'], lags=lag_acf, ax=ax[1])
+        ax[1].set_title('Non-graded Activities Autocorrelation')
+      else:
+        f, ax = plt.subplots()
+        plot_acf(object_actions[metric], lags=lag_acf, ax=ax)
+          
     plt.tight_layout()
     return f
