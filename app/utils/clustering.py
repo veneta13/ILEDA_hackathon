@@ -54,21 +54,27 @@ def cluster(course_name, number_of_clusters=3):
     course_name = course_name.replace(' ', '_')
     df = courses[course_name]
 
-    model = KMeans(n_clusters=number_of_clusters)
-    clusters = model.fit_predict(df)
-
     n_components = 3
     pca = PCA(n_components=n_components)
     df_pca = pca.fit_transform(df)
 
-    first_axis = [(df.columns[idx].replace('_', ' '), pca.components_[0][idx]) for idx in
-                  np.argsort(pca.components_[0])[-3:]]
-    second_axis = [(df.columns[idx].replace('_', ' '), pca.components_[1][idx]) for idx in
-                   np.argsort(pca.components_[1])[-3:]]
-    third_axis = [(df.columns[idx].replace('_', ' '), pca.components_[2][idx]) for idx in
-                  np.argsort(pca.components_[2])[-3:]]
+    model = KMeans(n_clusters=number_of_clusters)
+    clusters = model.fit_predict(df_pca)
+    components = pd.DataFrame(pca.components_, columns=df.columns)
+
+    first_axis = [
+        (list(components.iloc[0].sort_values(ascending=False)[:3].index)[idx].replace('_', ' '),
+         list(components.iloc[0].sort_values(ascending=False)[:3])[idx]) for idx in range(3)]
+    second_axis = [
+        (list(components.iloc[1].sort_values(ascending=False)[:3].index)[idx].replace('_', ' '),
+         list(components.iloc[1].sort_values(ascending=False)[:3])[idx]) for idx in range(3)]
+    third_axis = [
+        (list(components.iloc[2].sort_values(ascending=False)[:3].index)[idx].replace('_', ' '),
+         list(components.iloc[2].sort_values(ascending=False)[:3])[idx]) for idx in range(3)]
 
     all_axis = [first_axis, second_axis, third_axis]
+
+    print(all_axis)
 
     fig1 = px.scatter_3d(
         df_pca,
