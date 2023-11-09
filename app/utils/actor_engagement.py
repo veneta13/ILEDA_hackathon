@@ -5,6 +5,16 @@ from matplotlib import pyplot as plt
 
 
 def change_assessment(verb, object_def_type):
+    """
+    Change the assessment type based on the verb and object definition type.
+
+    Parameters:
+    - verb (str): The verb associated with the interaction.
+    - object_def_type (str): The original object definition type.
+
+    Returns:
+    - str: The updated object definition type.
+    """
     if object_def_type != 'assessment':
         return object_def_type
 
@@ -16,6 +26,17 @@ def change_assessment(verb, object_def_type):
 
 
 def get_count(actor_df, object_def_type, verb):
+    """
+    Get the count of occurrences for a specific object definition type and verb.
+
+    Parameters:
+    - actor_df (pd.DataFrame): The DataFrame containing actor data.
+    - object_def_type (str): The object definition type.
+    - verb (str): The verb associated with the interaction.
+
+    Returns:
+    - Tuple[str, str, int]: The object definition type, verb, and count.
+    """
     temp = actor_df[['object.definition.type', 'verb.id']].value_counts()
     if (object_def_type, verb) not in temp.index:
         return object_def_type, verb, 0
@@ -25,6 +46,18 @@ def get_count(actor_df, object_def_type, verb):
 
 
 def get_score(actor_df, object_def_type, verb):
+    """
+    Get the minimum, average, and maximum scores for a specific object definition type and verb.
+
+    Parameters:
+    - actor_df (pd.DataFrame): The DataFrame containing actor data.
+    - object_def_type (str): The object definition type.
+    - verb (str): The verb associated with the interaction.
+
+    Returns:
+    - Tuple[Union[float, None], Union[float, None], Union[float, None]]: 
+      The minimum, average, and maximum scores.
+    """
     scores = actor_df[(actor_df['object.definition.type'] == object_def_type) & (actor_df['verb.id'] == verb)][
         'result.score.scaled']
     if scores.empty:
@@ -34,6 +67,15 @@ def get_score(actor_df, object_def_type, verb):
 
 
 def calculate_score(df):
+    """
+    Calculate the total score based on successful interactions.
+
+    Parameters:
+    - df (pd.DataFrame): The DataFrame containing relevant data.
+
+    Returns:
+    - float: The calculated total score.
+    """
     if df.empty:
         return 0
     total_score = max(0, df[df['result.success'] == True]['result.score.scaled'].fillna(0).mean())
@@ -41,6 +83,18 @@ def calculate_score(df):
 
 
 def get_ratio(actor_df: pd.DataFrame, object_definition_type: str, verb_id1: str, verb_id2: str):
+    """
+    Calculate the ratio of occurrences between two verbs for a specific object definition type.
+
+    Parameters:
+    - actor_df (pd.DataFrame): The DataFrame containing actor data.
+    - object_definition_type (str): The object definition type.
+    - verb_id1 (str): The first verb.
+    - verb_id2 (str): The second verb.
+
+    Returns:
+    - float or None: The calculated ratio or None if the denominator is zero.
+    """
     n1 = \
         actor_df[
             (actor_df['object.definition.type'] == object_definition_type) & (actor_df['verb.id'] == verb_id1)].shape[
@@ -53,6 +107,17 @@ def get_ratio(actor_df: pd.DataFrame, object_definition_type: str, verb_id1: str
 
 
 def get_place_in_course(df, actor_id, course):
+    """
+    Get the place of an actor in terms of scores within a specific course.
+
+    Parameters:
+    - df (pd.DataFrame): The DataFrame containing relevant data.
+    - actor_id (int): The ID of the actor.
+    - course (str): The name of the course.
+
+    Returns:
+    - Tuple[int, int]: The place of the actor and the total number of actors in the course.
+    """
     course_df = df[df['Course'] == course]
 
     scores = []
@@ -70,6 +135,17 @@ def get_place_in_course(df, actor_id, course):
 
 
 def get_place_in_institution(df, actor_id, instituiton):
+    """
+    Get the place of an actor in terms of scores within a specific institution.
+
+    Parameters:
+    - df (pd.DataFrame): The DataFrame containing relevant data.
+    - actor_id (int): The ID of the actor.
+    - institution (str): The name of the institution.
+
+    Returns:
+    - Tuple[int, int]: The place of the actor and the total number of actors in the institution.
+    """
     instituiton_df = df[df['Institution'] == instituiton]
 
     scores = []
@@ -87,6 +163,16 @@ def get_place_in_institution(df, actor_id, instituiton):
 
 
 def get_successful_assessments(actor_df, type_of_assessment):
+    """
+    Get the count of successful assessments of a specific type.
+
+    Parameters:
+    - actor_df (pd.DataFrame): The DataFrame containing actor data.
+    - type_of_assessment (Tuple[str, str]): The tuple representing the object definition type and verb id.
+
+    Returns:
+    - int: The count of successful assessments.
+    """
     successful_assesment = actor_df[
         (actor_df['object.definition.type'] == type_of_assessment[0]) & (actor_df['verb.id'] == type_of_assessment[1])][
         'result.success'].shape[0]
@@ -94,8 +180,16 @@ def get_successful_assessments(actor_df, type_of_assessment):
 
 
 def resume_actor(df, actor_id):
-    # This function makes a resume of an actor.
+    """
+    Generate a summary of an actor's performance.
 
+    Parameters:
+    - df (pd.DataFrame): The DataFrame containing relevant data.
+    - actor_id (int): The ID of the actor.
+
+    Returns:
+    - Tuple[pd.DataFrame, pd.DataFrame, List[int], Tuple[int, int]]: Action summary, Score summary, Successful assessments count, and Place summary.
+    """
     df = df.copy()
     df['object.definition.type'] = df.apply(
         lambda row: change_assessment(row['verb.id'], row['object.definition.type']), axis=1)
@@ -142,6 +236,16 @@ def resume_actor(df, actor_id):
 
 
 def resume_course_or_institution(df, id):
+    """
+    Generate a summary of a course or institution's performance.
+
+    Parameters:
+    - df (pd.DataFrame): The DataFrame containing relevant data.
+    - id_or_name (int or str): The ID or name of the course or institution.
+
+    Returns:
+    - Tuple[pd.DataFrame, pd.DataFrame, List[int], int, pd.DataFrame]: Action summary, Score summary, Successful assessments count, Total students, and Total students in courses (if applicable).
+    """
     institutions = set(df['Institution'])
 
     type_object = 'Institution' if id in institutions else 'Course'
@@ -188,6 +292,15 @@ def resume_course_or_institution(df, id):
 
 
 def display(df, id_or_name):  # Тук подаваш оригиналната df и после е все тая дали ще е актьор или курс или институция
+    """
+    Display a visual summary of an actor, course, or institution's performance.
+
+    Parameters:
+    - df (pd.DataFrame): The DataFrame containing relevant data.
+    - id_or_name (int or str): The ID or name of the actor, course, or institution.
+    Returns:
+    - Tuple[fig1, fig2, fig3]: The plots of each summary.
+    """
     actions_df = None
     scores_df = None
     successful_assessments = None
