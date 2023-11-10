@@ -41,7 +41,9 @@ if treemap is not None:
     st.plotly_chart(treemap)
 
 if bars is not None:
-    st.pyplot(bars)
+    with st.expander('Show scores'):
+        st.pyplot(bars)
 
 if ranking is not None:
-    st.plotly_chart(ranking)
+    with st.expander('Show ranking'):
+        st.plotly_chart(ranking)
