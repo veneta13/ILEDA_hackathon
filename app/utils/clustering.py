@@ -74,8 +74,6 @@ def cluster(course_name, number_of_clusters=3):
 
     all_axis = [first_axis, second_axis, third_axis]
 
-    print(all_axis)
-
     fig1 = px.scatter_3d(
         df_pca,
         x=0,
