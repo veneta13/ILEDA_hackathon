@@ -63,14 +63,14 @@ def cluster(course_name, number_of_clusters=3):
     components = pd.DataFrame(pca.components_, columns=df.columns)
 
     first_axis = [
-        (list(components.iloc[0].sort_values(ascending=False)[:3].index)[idx].replace('_', ' '),
-         list(components.iloc[0].sort_values(ascending=False)[:3])[idx]) for idx in range(3)]
+        (list(abs(components.iloc[0]).sort_values(ascending=False)[:3].index)[idx].replace('_', ' '),
+         list(abs(components.iloc[0]).sort_values(ascending=False)[:3])[idx]) for idx in range(3)]
     second_axis = [
-        (list(components.iloc[1].sort_values(ascending=False)[:3].index)[idx].replace('_', ' '),
-         list(components.iloc[1].sort_values(ascending=False)[:3])[idx]) for idx in range(3)]
+        (list(abs(components.iloc[1]).sort_values(ascending=False)[:3].index)[idx].replace('_', ' '),
+         list(abs(components.iloc[1]).sort_values(ascending=False)[:3])[idx]) for idx in range(3)]
     third_axis = [
-        (list(components.iloc[2].sort_values(ascending=False)[:3].index)[idx].replace('_', ' '),
-         list(components.iloc[2].sort_values(ascending=False)[:3])[idx]) for idx in range(3)]
+        (list(abs(components.iloc[2]).sort_values(ascending=False)[:3].index)[idx].replace('_', ' '),
+         list(abs(components.iloc[2]).sort_values(ascending=False)[:3])[idx]) for idx in range(3)]
 
     all_axis = [first_axis, second_axis, third_axis]
 
