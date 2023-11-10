@@ -9,6 +9,9 @@ df = util_funcs.load_data()
 
 st.markdown('# Student Engagement')
 
+st.markdown('This module generates resumes for actors, courses, or institutions. The resumes include information such '
+            'as action counts, scores, and rankings.')
+
 st.radio(
     'Select the category you want to visualize',
     ['Course', 'Institution', 'Actor'],

@@ -6,6 +6,9 @@ df = util_funcs.load_data()
 
 st.markdown('# Time Series Analysis')
 
+st.markdown('This module contains functions for analyzing and visualizing time series data related to user '
+            'interactions in a learning environment.')
+
 course = st.selectbox(
     "Select a course",
     df['Course'].drop_duplicates().tolist(),

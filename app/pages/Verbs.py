@@ -6,6 +6,9 @@ df = util_funcs.load_data()
 
 st.markdown('# Verbs')
 
+st.markdown('This module contains visualizations for analyzing interactions within the learning platform dataset, '
+            'focusing on verbs, courses, and their relationships.')
+
 lollipop_fig = verbs.get_verb_lollipop(df)
 radar_fig_course = verbs.get_verb_radar_course(df)
 radar_fig_verb = verbs.get_verb_radar_verb(df)
