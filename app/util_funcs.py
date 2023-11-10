@@ -14,7 +14,7 @@ def load_data():
 def text_to_display(text):
     if text == 'Graded assignments':
         return 'assessments'
-    if text == 'Non-graded assignments':
+    if text == 'Non-graded activities':
         return 'non_assessments'
     if text == 'Both types (single plot)':
         return 'total'
